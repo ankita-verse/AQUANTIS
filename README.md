@@ -173,7 +173,7 @@ AquaSense/
 
 Step 1: Clone the repository
 
-git clone https://github.com/ankita-verse/AquaSense.git
+git clone https://github.com/ankita-verse/AQUANTIS.git
 
 Step 2: Navigate to the project directory
 
