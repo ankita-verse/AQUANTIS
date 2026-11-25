@@ -10,6 +10,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
 
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, classification_report
 
@@ -31,21 +33,30 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 # Define three machine learning models
 models = {
+
     "Logistic Regression": Pipeline([
         ("imputer", SimpleImputer(strategy="median")),
         ("scaler", StandardScaler()),
-        ("model", LogisticRegression(max_iter=1000))
+        ("classifier", LogisticRegression(max_iter=1000))
+    ]),
+
+    "KNN": Pipeline([
+        ("imputer", SimpleImputer(strategy="median")),
+        ("scaler", StandardScaler()),
+        ("classifier", KNeighborsClassifier(n_neighbors=5))
     ]),
 
     "Decision Tree": Pipeline([
         ("imputer", SimpleImputer(strategy="median")),
-        ("model", DecisionTreeClassifier(random_state=42))
+        ("classifier", DecisionTreeClassifier(random_state=42))
     ]),
 
-    "Random Forest": Pipeline([
+    "SVM": Pipeline([
         ("imputer", SimpleImputer(strategy="median")),
-        ("model", RandomForestClassifier(n_estimators=200, random_state=42))
+        ("scaler", StandardScaler()),
+        ("classifier", SVC(kernel="rbf", C=1.0, gamma="scale"))
     ])
+
 }
 
 # Train and evaluate each model
@@ -95,7 +106,5 @@ results_df.to_csv("results/model_comparison.csv", index=False)
 print("\nMODEL TRAINING COMPLETED SUCCESSFULLY!")
 print("Comparison saved in results/model_comparison.csv")
 
-joblib.dump(models["Decision Tree"], "results/decision_tree_model.pkl")
-
-print("Decision Tree model saved successfully!")
-
+joblib.dump(models["SVM"], "results/svm_model.pkl")
+print("SVM model saved successfully!")
